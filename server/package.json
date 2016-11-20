@@ -1,0 +1,11 @@
+{
+  "name": "example-sift",
+  "display-name": "Example Sift Sift",
+  "description": "",
+  "author": "",
+  "version": "1.0.0",
+  "#": "Please use 'redsift npm' instead of system 'npm' ",
+  "dependencies": {
+    "@redsift/text-utilities": "^0.1.4"
+  }
+}
