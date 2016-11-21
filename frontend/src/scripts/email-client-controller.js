@@ -1,5 +1,5 @@
 /**
- * Example Sift Sift. Email client controller entry point.
+ * Happy Sift. Email client controller entry point.
  */
 import { EmailClientController, registerEmailClientController } from '@redsift/sift-sdk-web';
 
@@ -8,19 +8,21 @@ export default class MyEmailClientController extends EmailClientController {
     super();
   }
 
-  // for more info: http://docs.redsift.com/docs/client-code-redsiftclient
-  loadThreadListView (listInfo) {
-    console.log('counter: loadThreadListView: ', listInfo);
-    if (listInfo) {
-      return {
-        template: '001_list_common_txt',
-        value: {
-          color: '#ffffff',
-          backgroundColor: '#e11010',
-          subtitle: listInfo + ' words'
-        }
-      };
-    }
+  loadThreadListView (score) {
+    const emotion = score
+      ? score > 0 ? 'happy' : 'sad'
+      : 'unknown'
+    ;
+    
+    return {
+      template: '003_list_common_img',
+      value: {
+        image: {
+          url: `assets/${emotion}.png`
+        },
+        subtitle: score
+      }
+    };
   };
 }
 

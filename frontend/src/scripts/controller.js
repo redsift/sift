@@ -11,9 +11,7 @@ export default class MyController extends SiftController {
   }
 
   loadView(state) {
-    console.log('counter: loadView', state);
-
-    this.storage.subscribe(['count'], this._suHandler);
+    this.storage.subscribe(['thread'], this._suHandler);
     switch (state.type) {
       case 'email-thread':
         return {
@@ -23,7 +21,7 @@ export default class MyController extends SiftController {
       case 'summary':
         return {
           html: 'summary.html',
-          data: this.getCount()
+          data: this.getScore()
         };
       default:
         console.error('counter: unknown Sift type: ', state.type);
@@ -32,21 +30,18 @@ export default class MyController extends SiftController {
 
     // Event: storage update
   onStorageUpdate(value) {
-    console.log('counter: onStorageUpdate: ', value);
-    return this.getCount().then(xe => {
+    return this.getScore().then(xe => {
       // Publish events from 'x' to view
-      this.publish('counts', xe);
+      this.publish('score', xe);
     });
   }
 
-  getCount() {
-    return this.storage.get({
-      bucket: 'count',
-      keys: ['word_count']
+  getScore() {
+    return this.storage.getAll({
+      bucket: 'threads'
     }).then((values) => {
-      console.log('counter: getCount returned:', values);
-      return values[0];
-    });
+      return '1';
+    }).catch(() => 1);
   }
 }
 

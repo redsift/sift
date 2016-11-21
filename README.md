@@ -1,6 +1,4 @@
-example-sift
+happy-sift
 ==================
 
-Example Sift Sift
-
-
+Happy Sift

@@ -1236,26 +1236,24 @@ var MyView = (function (SiftView) {
   function MyView() {
   // You have to call the super() method to initialize the base class.
     SiftView.call(this);
-    this.controller.subscribe('counts', this.onCounts.bind(this));
+    this.controller.subscribe('score', this.onScore.bind(this));
   }
 
   if ( SiftView ) MyView.__proto__ = SiftView;
   MyView.prototype = Object.create( SiftView && SiftView.prototype );
   MyView.prototype.constructor = MyView;
 
-  // for more info: https://docs.redsift.com/docs/client-code-siftview
   MyView.prototype.presentView = function presentView (value) {
     console.log('counter: presentView: ', value);
-    this.onCounts(value.data);
+    this.onScore(value.data);
   };
 
   MyView.prototype.willPresentView = function willPresentView (value) {
     console.log('counter: willPresentView: ', value);
   };
 
-  MyView.prototype.onCounts = function onCounts (data) {
-    console.log('counter: onCounts: ', data);
-    document.getElementById('number').textContent = data.value;
+  MyView.prototype.onScore = function onScore (data) {
+    document.getElementById('score').textContent = data;
   };
 
   return MyView;

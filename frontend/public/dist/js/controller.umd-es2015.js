@@ -1853,9 +1853,7 @@ var MyController = (function (SiftController) {
   MyController.prototype.constructor = MyController;
 
   MyController.prototype.loadView = function loadView (state) {
-    console.log('counter: loadView', state);
-
-    this.storage.subscribe(['count'], this._suHandler);
+    this.storage.subscribe(['thread'], this._suHandler);
     switch (state.type) {
       case 'email-thread':
         return {
@@ -1865,7 +1863,7 @@ var MyController = (function (SiftController) {
       case 'summary':
         return {
           html: 'summary.html',
-          data: this.getCount()
+          data: this.getScore()
         };
       default:
         console.error('counter: unknown Sift type: ', state.type);
@@ -1876,21 +1874,18 @@ var MyController = (function (SiftController) {
   MyController.prototype.onStorageUpdate = function onStorageUpdate (value) {
     var this$1 = this;
 
-    console.log('counter: onStorageUpdate: ', value);
-    return this.getCount().then(function (xe) {
+    return this.getScore().then(function (xe) {
       // Publish events from 'x' to view
-      this$1.publish('counts', xe);
+      this$1.publish('score', xe);
     });
   };
 
-  MyController.prototype.getCount = function getCount () {
-    return this.storage.get({
-      bucket: 'count',
-      keys: ['word_count']
+  MyController.prototype.getScore = function getScore () {
+    return this.storage.getAll({
+      bucket: 'threads'
     }).then(function (values) {
-      console.log('counter: getCount returned:', values);
-      return values[0];
-    });
+      return '1';
+    }).catch(function () { return 1; });
   };
 
   return MyController;

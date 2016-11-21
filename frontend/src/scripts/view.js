@@ -7,22 +7,20 @@ export default class MyView extends SiftView {
   constructor() {
   // You have to call the super() method to initialize the base class.
     super();
-    this.controller.subscribe('counts', this.onCounts.bind(this));
+    this.controller.subscribe('score', this.onScore.bind(this));
   }
 
-  // for more info: https://docs.redsift.com/docs/client-code-siftview
   presentView(value) {
     console.log('counter: presentView: ', value);
-    this.onCounts(value.data);
+    this.onScore(value.data);
   }
 
   willPresentView(value) {
     console.log('counter: willPresentView: ', value);
   }
 
-  onCounts(data) {
-    console.log('counter: onCounts: ', data);
-    document.getElementById('number').textContent = data.value;
+  onScore(data) {
+    document.getElementById('score').textContent = data;
   }
 }
 
