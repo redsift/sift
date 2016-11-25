@@ -1863,7 +1863,7 @@ var MyController = (function (SiftController) {
       case 'summary':
         return {
           html: 'summary.html',
-          data: this.getScore()
+          data: this.getWords()
         };
       default:
         console.error('counter: unknown Sift type: ', state.type);
@@ -1874,18 +1874,14 @@ var MyController = (function (SiftController) {
   MyController.prototype.onStorageUpdate = function onStorageUpdate (value) {
     var this$1 = this;
 
-    return this.getScore().then(function (xe) {
+    return this.getWords().then(function (xe) {
       // Publish events from 'x' to view
-      this$1.publish('score', xe);
+      this$1.publish('words', xe);
     });
   };
 
-  MyController.prototype.getScore = function getScore () {
-    return this.storage.getAll({
-      bucket: 'threads'
-    }).then(function (values) {
-      return '1';
-    }).catch(function () { return 1; });
+  MyController.prototype.getWords = function getWords () {
+    return this.storage.getAll({ bucket: 'positive' }).catch(console.log);
   };
 
   return MyController;

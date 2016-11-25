@@ -1838,7 +1838,7 @@ class MyController extends SiftController {
       case 'summary':
         return {
           html: 'summary.html',
-          data: this.getScore()
+          data: this.getWords()
         };
       default:
         console.error('counter: unknown Sift type: ', state.type);
@@ -1847,18 +1847,14 @@ class MyController extends SiftController {
 
     // Event: storage update
   onStorageUpdate(value) {
-    return this.getScore().then(xe => {
+    return this.getWords().then(xe => {
       // Publish events from 'x' to view
-      this.publish('score', xe);
+      this.publish('words', xe);
     });
   }
 
-  getScore() {
-    return this.storage.getAll({
-      bucket: 'threads'
-    }).then((values) => {
-      return '1';
-    }).catch(() => 1);
+  getWords() {
+    return this.storage.getAll({ bucket: 'positive' }).catch(console.log);
   }
 }
 

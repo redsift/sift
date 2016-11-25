@@ -1,22 +1,23 @@
 /**
- * Example Sift Sift. DAG's 'Node1' node implementation
- */
+ * Happy Sift. DAG's 'Node1' node implementation
+**/
 'use strict';
 
-const sentiment = require('sentiment');
+var sentiment = require ('sentiment');
 
 module.exports = function (got) {
-  const inData = got.in;
-  const json = inData.data.map(d => JSON.parse(d.value));
-  const counts = json.map(value => {
-    const text = value.textBody || value.strippedHtmlBody || '';
-    const score = sentiment(value.textBody).comparative;
+  const ret = [];
+  const json = got.in.data.map(d => JSON.parse(d.value));
+  const analysis = json.forEach(value => {
+    const { textBody, strippedHtmlBody, threadId, id, email } = value;
+    const text = textBody || strippedHtmlBody || '';
+    const analysis = sentiment(text);
+    const { score, positive, negative } = analysis;
 
-    return {
-      key: `${value.threadId}/${value.id}`,
-      value: score
-    }
+    ret.push({name:'emotions', key:`positive/${id}`, value: positive });
+    ret.push({name:'emotions', key:`negative/${id}`, value: negative });
+    ret.push({name: 'scores', key: `${threadId}/${id}`, value: score});
   });
 
-  return counts;
+  return ret;
 };

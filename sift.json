@@ -45,12 +45,13 @@
         "javascript": "server/node1.js"
       },
       "outputs": {
-        "messageCounts": {}
+        "scores": {},
+        "emotions": {}
       }
     }, {
-      "#": "Second Node",
+      "#": "Thread Node",
       "input": {
-        "bucket": "messageCounts",
+        "bucket": "scores",
         "select": "/*"
       },
       "implementation": {
@@ -59,9 +60,25 @@
       "outputs": {
         "threads": {}
       }
+    }, {
+      "#": "Emotion Node",
+      "input": {
+        "bucket": "emotions",
+        "select": "/*"
+      },
+      "implementation": {
+        "javascript": "server/node3.js"
+      },
+      "outputs": {
+        "positive": {},
+        "negative": {}
+      }
     }],
     "stores":{
-      "messageCounts" : {
+      "scores" : {
+        "key$schema":"string/string"
+      },
+      "emotions" : {
         "key$schema":"string/string"
       }
     },
@@ -69,6 +86,12 @@
       "exports": {
         "threads": {
           "import": "_email.tid"
+        },
+        "positive" : {
+          "key$schema":"string"
+        },
+        "negative" : {
+          "key$schema":"string"
         }
       }
     }
